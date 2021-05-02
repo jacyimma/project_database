@@ -14,6 +14,10 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <style>
+        body{
+            background:#fffcf0;
+            overflow-x:hidden;
+        }
        .logo{
               height:60px;
               width:130px;
@@ -54,14 +58,41 @@
             }
             .item-content{
                 padding:10px;
-                background:#f5fcf7;
-                margin-top:10px;
-                border-radius:10px;
+                margin:10px 100px;
                 box-shadow: 0 0 5px #b5b5b5;
             }
+            .piechart {
+            margin-top: 600px;
+            margin-left:200px;
+            display: block;
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background-image: conic-gradient(
+                pink 70deg, 
+                lightblue 0 235deg, 
+                orange 0);
+        }
+        .piechart {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
             #show-to-insert{
                 margin-top:100px;
-            
+            }
+            .image-content{
+                justify-content:center;
+                height:auto;
+                width:100%;
+                text-align:center;
+                margin-top:70px;
+                margin-bottom:40px;
+            }
+            .image{
+                height:300px;
+                width:300px;
             }
         </style>
     </head>
@@ -110,14 +141,17 @@
                      $product_url = oci_result($s,'PRODUCT_URL');
                      $total_profit = oci_result($s,'TOTAL_PROFIT');
                      $crawl = oci_result($s,'CRAWL_MONTH'); 
-
               ?>
-    
             <div class='row'>
-              <div class="col s3">
+            <div class="col s1"></div>
+              <div class="col s12 image-content">
                     <img src="<?php echo $image?>" alt="" class="image">
+                    <div class="piechart">
+                        <p><?php echo $rating ?></p>
+                    </div>
+                    <h6>ALIIOOP SHOP</h6>
               </div>
-              <div class="col s6">
+              <div class="col s12">
                    <div class="item-content">
                     <span class="bold">NAME : </span>
                     <span class="product"><?php echo $title_orig?></span>
@@ -131,10 +165,29 @@
                     <span class="product"><?php echo $price?></span>
                    </div>
                    <div class="item-content">
-                    <span class="bold">PRODUCT_COLOR: </span>
+                    <span class="bold">PRODUCT COLOR: </span>
                     <span class="product"><?php echo $product_color?></span>
                    </div>
-
+                   <div class="item-content">
+                    <span class="bold">RATING: </span>
+                    <span class="product"><?php echo $rating?></span>
+                   </div>
+                   <div class="item-content">
+                    <span class="bold">ORIGIN COUNTRY: </span>
+                    <span class="product"><?php echo $origin_country?></span>
+                   </div>
+                   <div class="item-content">
+                    <span class="bold">TAGS: </span>
+                    <span class="product"><?php echo $tags?></span>
+                   </div>
+                   <div class="item-content">
+                    <span class="bold">SIZE: </span>
+                    <span class="product"><?php echo $product_size_id?></span>
+                   </div>
+                   <div class="item-content">
+                    <span class="bold">INVENTORY: </span>
+                    <span class="product"><?php echo $product_size_in?></span>
+                   </div>
               </div>
             </div>
        <?php  

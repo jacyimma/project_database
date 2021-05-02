@@ -38,7 +38,7 @@
             }
             .card{
               width:100%;
-              height:350px;
+              height:450px;
               margin:10px 10px;
             }
             img{
@@ -63,7 +63,7 @@
               height:60px;
               width:130px;
               margin-left:50px;
-            }
+            }  
             .navbar{
               position: fixed;
               top:0;
@@ -73,6 +73,9 @@
             .links{
               color:black;
               font-size:15px;
+            }
+            .login{
+                margin-right:20px;
             }
         </style>
     </head>
@@ -93,7 +96,7 @@
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li> 
           <form action="{{route('login')}}" method="get">
-              <input type="submit" value="Log in">
+              <input type="submit" value="Log in" class="btn login blue lighten-1">
           </form>
         </li>
       </ul>
@@ -124,15 +127,13 @@
         <div class="input-field search">
           <input id="text" type="search" name="search" required>
           <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-           <input type="submit" class="btn blue" value="search">
+           <input type="submit" class="btn blue lighten-1" value="search">
         </div>
       </form>
     </div>
   </nav>
  </div>
-</div>
-
-         
+</div>        
 <form action="{{  route('select')}}" method="GET">
 {{ csrf_field() }}
 <div class="row">
@@ -163,26 +164,11 @@
     <option value="DESC">Decreasing</option>
   </select>
 </div>
-<div class="col s3"></div>
-</div>
-<div class="row">
-<div class="col s4">
-</div>
-<div class="col s2">
-<span>Sort by size</span>
-</div>
 <div class="col s3">
-<select class="browser-default blue lighten-5" name="bysize">
-    <option value="" disabled selected>Choose your option</option>
-    <option value="1">M</option>
-    <option value="2">S</option>
-    <option value="3">L</option>
-  </select>
+<input type="submit" class="btn" value="select" class='select btn blue lighten-1'>
 </div>
-<div class="col s3"></div>
 </div>
-<input type="submit" class="btn" value="select">
-
+</div>
 </form>
 <?php
 }
@@ -196,24 +182,40 @@
     oci_execute($stid1);
     oci_execute($curs1); 
     while (($row = oci_fetch_array($curs1, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-    $id = $row['ID'];
-                $name =  $row['TITLE'];
-                $jname =  $row['PRICE'];
-                $jimage =  $row['PRODUCT_PICTURE'];
+                $id = $row['ID'];
+                $title =   $row['TITLE_ORIG'];
+                $price =  $row['PRICE'];
+                $jimage = $row['PRODUCT_PICTURE'];
+                $rating = $row['RATING'];
+                $tag = $row['TAGS'];
          ?>
   
- <div class="col m2 card z-depth-3">
+ <div class="col m3 card z-depth-3">
     <div class="card-image waves-effect waves-block waves-light">
       <img class="activator" src="<?php echo $jimage?>">
     </div>
     <div class="card-content">
-      <span class=" activator grey-text text-darken-4"><?php echo substr($name,0,50) ?><i class="material-icons right open">more_vert</i></span>
-      <p><?php echo $jname ?></p>
+      <span class=" activator grey-text text-darken-4"><?php echo substr($title,0,50) ?><i class="material-icons right open">more_vert</i></span>
+      <p><?php echo $rating ?></p>
     </div>
     <div class="card-reveal">
       <span class="card-title grey-text text-darken-4"><i class="material-icons right close">close</i></span>
-      <p>Here is some more information about this product that is only revealed once clicked on.</p>
-      <p><?php echo $id ?></p>
+      <p><?php echo $title?></p>
+      <div class="chip">
+          <p>Tags:
+          <?php echo $tag?>
+          </p>
+      </div>
+      <div class="chip">
+      <p>Rating:
+          <?php echo $rating?>
+          </p>
+      </div>
+      <div class="chip">
+      <p>Price:
+          <?php echo $price?>
+          </p>
+      </div>
       <form action="{{ route('enter')}}" method = "get"> 
                 {{ csrf_field() }}
                 <input type="text"  name="anime_s" style="display: none;" value="<?php echo $id ?>" required>

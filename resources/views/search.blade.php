@@ -14,11 +14,49 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <style>
-       .logo{
+        body{
+          overflow-x:hidden;
+        }
+        .nav{
+          margin:70px 0px 100px 0px;
+        }
+          .body{
+                font-family: 'Nunito', sans-serif;
+                display:flex;
+                padding-left:10%;
+                flex-direction:row;
+                font-size:16px;
+                margin-top:100px;
+                background:#e8e8e8;
+            }
+            .card{
+              width:100%;
+              height:450px;
+              margin:10px 10px;
+            }
+            img{
+              width:100%;
+              height:auto;
+            }
+            .close,.open{
+              cursor: pointer;
+            }
+            .group-cards{
+              margin-left:10%;
+            }
+            .tags{
+              display:inline-block;
+              margin: 20px 10% 20px 50%;
+            }
+            .browser-default{
+                border-radius:5px;
+        
+            }
+            .logo{
               height:60px;
               width:130px;
               margin-left:50px;
-            }
+            }  
             .navbar{
               position: fixed;
               top:0;
@@ -29,39 +67,8 @@
               color:black;
               font-size:15px;
             }
-            .image{
-                height:auto;
-                width:90%;
-            }
-            .item{
-               padding:20px;
-               width:90%;
-               margin-left:5%;
-            }
-            .group-cards{
-                margin-top:100px;
-            }
-            .btns{
-               margin-top:30px;
-            }
-            .bold{
-                font-weight:bold;
-                font-size:15px;
-            }
-            .product{
-                font-weight:500;
-                font-size:17px;
-            }
-            .item-content{
-                padding:10px;
-                background:#f5fcf7;
-                margin-top:10px;
-                border-radius:10px;
-                box-shadow: 0 0 5px #b5b5b5;
-            }
-            #show-to-insert{
-                margin-top:100px;
-            
+            .login{
+                margin-right:20px;
             }
         </style>
     </head>
@@ -73,6 +80,94 @@
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
            } 
 ?>
+<div class="row">
+<div class="col s12">
+<nav class='navbar white'>
+    <div class="nav-wrapper">
+        <img src="{{asset('images/logo.jpg')}}" alt="" class='logo'>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li> 
+          <form action="{{route('login')}}" method="get">
+              <input type="submit" value="Log in" class="btn login blue lighten-1">
+          </form>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+</div>
+
+<?php
+    $curs1 = oci_new_cursor($conn);
+    $stid1 = oci_parse($conn, "begin  top_1.top1(:cursbv); end;");
+    oci_bind_by_name($stid1, ":cursbv", $curs1, -1, OCI_B_CURSOR);
+    oci_execute($stid1);
+    oci_execute($curs1); 
+    while (($row = oci_fetch_array($curs1, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
+                $id = $row['ID'];
+                $name =  $row['TITLE'];
+                $jname =  $row['PRICE'];
+                $size =  $row['PRODUCT_VARIATION_SIZE_ID'];
+                $rating =  $row['RATING'];
+   ?>
+<div class="row">
+<div class="col s6"></div>
+ <div class="col s4">
+ <nav class='nav'>
+    <div class="nav-wrapper blue">
+      <form action="{{  route('search')}}" method="GET">
+      {{ csrf_field() }}
+        <div class="input-field search">
+          <input id="text" type="search" name="search" required>
+          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+           <input type="submit" class="btn blue lighten-1" value="search">
+        </div>
+      </form>
+    </div>
+  </nav>
+ </div>
+</div>        
+<form action="{{  route('select')}}" method="GET">
+{{ csrf_field() }}
+<div class="row">
+<div class="col s4">
+</div>
+<div class="col s2">
+<span>Sort by price</span>
+</div>
+<div class="col s3">
+<select class="browser-default blue lighten-5" name="byprice">
+    <option value="" disabled selected>Choose your option</option>
+    <option value="ASC">Increasing</option>
+    <option value="DESC">Decreasing</option>
+  </select>
+</div>
+<div class="col s3"></div>
+</div>
+<div class="row">
+<div class="col s4">
+</div>
+<div class="col s2">
+<span>Sort by rating</span>
+</div>
+<div class="col s3">
+<select class="browser-default blue lighten-5" name="byrating">
+    <option value="" disabled selected>Choose your option</option>
+    <option value="ASC">Increasing</option>
+    <option value="DESC">Decreasing</option>
+  </select>
+</div>
+<div class="col s3">
+<input type="submit" class="btn" value="select" class='select btn blue lighten-1'>
+</div>
+</div>
+</div>
+</form>
+<?php
+}
+?>
+<div class="main" id="TOP-18_pop">
+ <div class="row group-cards">
 <?php   
      $sql = 'SELECT * FROM ShopOfClothes WHERE PRICE = :didbv';
      $s = oci_parse($conn, $sql);
@@ -92,7 +187,7 @@
                      $uses_ad_boosts = oci_result($s,'USES_AD_BOOSTS');
                      $rating = oci_result($s,'RATING');
                      $rating_count = oci_result($s,'RATING_COUNT');
-                     $tags = oci_result($s,'TAGS');
+                     $tag = oci_result($s,'TAGS');
                      $product_color = oci_result($s,'PRODUCT_COLOR');
                      $product_size_id = oci_result($s,'PRODUCT_VARIATION_SIZE_ID');
                      $product_size_in = oci_result($s,'PRODUCT_VARIATION_INVENTORY');
@@ -112,32 +207,41 @@
                      $crawl = oci_result($s,'CRAWL_MONTH'); 
 
               ?>
-    
-            <div class='row'>
-              <div class="col s3">
-                    <img src="<?php echo $image?>" alt="" class="image">
-              </div>
-              <div class="col s6">
-                   <div class="item-content">
-                    <span class="bold">NAME : </span>
-                    <span class="product"><?php echo $title_orig?></span>
-                   </div>
-                   <div class="item-content">
-                    <span class="bold">TITLE: </span>
-                    <span class="product"><?php echo $title?></span>
-                   </div>
-                   <div class="item-content">
-                    <span class="bold">PRICE: </span>
-                    <span class="product"><?php echo $price?></span>
-                   </div>
-                   <div class="item-content">
-                    <span class="bold">PRODUCT_COLOR: </span>
-                    <span class="product"><?php echo $product_color?></span>
-                   </div>
+                 <div class="col m3 card z-depth-3">
+    <div class="card-image waves-effect waves-block waves-light">
+      <img class="activator" src="<?php echo $jimage?>">
+    </div>
+    <div class="card-content">
+      <span class=" activator grey-text text-darken-4"><?php echo substr($title,0,50) ?><i class="material-icons right open">more_vert</i></span>
+      <p><?php echo $rating ?></p>
+    </div>
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4"><i class="material-icons right close">close</i></span>
+      <p><?php echo $title?></p>
+      <div class="chip">
+          <p>Tags:
+          <?php echo $tag?>
+          </p>
+      </div>
+      <div class="chip">
+      <p>Rating:
+          <?php echo $rating?>
+          </p>
+      </div>
+      <div class="chip">
+      <p>Price:
+          <?php echo $price?>
+          </p>
+      </div>
+      <form action="{{ route('enter')}}" method = "get"> 
+                {{ csrf_field() }}
+                <input type="text"  name="anime_s" style="display: none;" value="<?php echo $id ?>" required>
+                <button type="submit" class="btn indigo lighten-1" style="float: right;">Enter</button> </form>
+    </div>
+  </div>
 
-              </div>
-            </div>
+         
        <?php  
     } ?>
-     
+  </div>   
 </body>

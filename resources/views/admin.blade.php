@@ -33,6 +33,10 @@
               color:black;
               font-size:15px;
             }
+            .delete{
+                margin-left:190px;
+                margin-top:-137px;
+            }
             .itemImage{
                 height:auto;
                 width:90%;
@@ -81,16 +85,28 @@
 </div>
 </div>
 <div class="oti" id="show-to-insert" style="display:none;">
-    <form action="{{  route('insert')}}" method="POST">
+   <div class="row">
+           <div class="col s2">
+           </div>
+           <div class="col s6">
+           <form action="{{  route('insert')}}" method="POST">
     {{ csrf_field() }}
+            <label for="id">ID:</label>
            <input type="number" name="id" required>
+           <label for="product_id">PRODUCT_ID:</label>
            <input type="text" name="product_id" required>
+           <label for="title">TITLE:</label>
            <input type="text" name="title" required>
+           <label for="product_url">PRODUCT_URL:</label>
            <input type="text" name="product_url"required>
+           <label for="origin_country">ORIGIN_COUNTRY:</label>
            <input type="text" name="origin_country" required>
+           <label for="title_orig">TITLE_ORIG:</label>
            <input type="text" name="title_orig" required>
-           <input type="submit" value="save">
+           <input type="submit" value="save" class='btn blue lighten-1'>
     </form>
+           </div>
+   </div>
 </div>
  <div  style="display:none;">        
    <form class="row z-depth-2 item">
@@ -328,13 +344,13 @@
             <label for="textarea1">SHIPPING_OPTION_PRICE</label>
         </div>
         </div>
-        <input type="submit" value="save">
+        <input type="submit" value="save"  class='btn blue lighten-1'>
   </form>
 
   <form action="{{  route('delete')}}" method="POST">
   {{ csrf_field() }}
   <input type="text" name="id" value="<?php echo $id?>" style="display:none;">
-  <input type="submit" value="delete">
+  <input type="submit" value="delete" class='btn blue lighten-1 delete'>
  
   </form>
   <?php

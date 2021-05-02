@@ -21,6 +21,9 @@ Route::get('/', function () {
     return view('mainpage');
 })->name('home');
 
+Route::get('/barchart', function () {
+    return view('barchart');
+})->name('barchart');
 Route::get('/enter','App\Http\Controllers\ProductController@product')->name('enter');
 
 Route::get('/admin/login','App\Http\Controllers\ProductController@admin')->name('admin');
