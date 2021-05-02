@@ -9,6 +9,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">         
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -123,6 +124,11 @@
                      $uses_ad_boosts = oci_result($s,'USES_AD_BOOSTS');
                      $rating = oci_result($s,'RATING');
                      $rating_count = oci_result($s,'RATING_COUNT');
+                     $rating_one = oci_result($s,'RATING_ONE_COUNT');
+                     $rating_two = oci_result($s,'RATING_TWO_COUNT');
+                     $rating_three = oci_result($s,'RATING_THREE_COUNT');
+                     $rating_four = oci_result($s,'RATING_FOUR_COUNT');
+                     $rating_five = oci_result($s,'RATING_FIVE_COUNT');
                      $tags = oci_result($s,'TAGS');
                      $product_color = oci_result($s,'PRODUCT_COLOR');
                      $product_size_id = oci_result($s,'PRODUCT_VARIATION_SIZE_ID');
@@ -145,11 +151,8 @@
             <div class='row'>
             <div class="col s1"></div>
               <div class="col s12 image-content">
-                    <img src="<?php echo $image?>" alt="" class="image">
-                    <div class="piechart">
-                        <p><?php echo $rating ?></p>
-                    </div>
-                    <h6>ALIIOOP SHOP</h6>
+                    <img src="<?php echo $image?>" alt="" class="image"> 
+                    <h6>ALIIOOP SHOP</h6>     
               </div>
               <div class="col s12">
                    <div class="item-content">
@@ -190,6 +193,48 @@
                    </div>
               </div>
             </div>
+           <div class="row">
+           <div class="col s3"></div>
+           <div class="col s6">
+           <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+           </div>
+           </div>
+<script>
+var ctx = document.getElementById('myChart');
+var barColors = ["red", "green","blue","orange","brown","yellow","pink","purple","navy","aqua"];
+var xValues = ["RATING_ONE_COUNT", "RATING_TWO_COUNT", "RATING_THREE_COUNT", "RATING_FOUR_COUNT", "RATING_FIVE_COUNT"];
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: xValues,
+        datasets: [{
+            label: 'Ratings',
+            data: [<?php echo $rating_one?>, <?php echo $rating_two?>, <?php echo $rating_three?>,<?php echo $rating_four?>, <?php echo $rating_five?>],
+            backgroundColor:barColors
+        }]
+    },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Ranting Of Clothes"
+    }
+  }
+});  
+
+</script>
+        <div class="row">
+            <div class="col s5"></div>
+            <div class="col s2">
+                <button class="btn blue lighten-1" onclick="showAlert()">Click to buy</button>
+            </div>
+            <div class="col s5"></div>
+        </div>
+        <script>
+            function showAlert(){
+                alert("Thank you for shopping on our website!")
+            }
+        </script>
        <?php  
     } ?>
      

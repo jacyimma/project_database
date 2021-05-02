@@ -17,7 +17,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
  
         <style>
@@ -77,6 +77,9 @@
             .login{
                 margin-right:20px;
             }
+            .pie-chart{
+                margin-top:70px;
+            }
         </style>
     </head>
 
@@ -104,6 +107,7 @@
   </nav>
 </div>
 </div>
+
 <?php
     $curs1 = oci_new_cursor($conn);
     $stid1 = oci_parse($conn, "begin  top_1.top1(:cursbv); end;");
@@ -118,7 +122,8 @@
                 $rating =  $row['RATING'];
    ?>
 <div class="row">
-<div class="col s6"></div>
+<div class="col s6">
+</div>
  <div class="col s4">
  <nav class='nav'>
     <div class="nav-wrapper blue">
@@ -133,7 +138,8 @@
     </div>
   </nav>
  </div>
-</div>        
+</div>   
+
 <form action="{{  route('select')}}" method="GET">
 {{ csrf_field() }}
 <div class="row">
@@ -228,4 +234,44 @@
     oci_free_statement($stid1);
     oci_free_statement($curs1);
   ?>
-</div>
+  </div>
+  <div class="row">
+   <div class="col s3"></div>
+   <div class="col s6">
+   <canvas id="myChart" style="width:100%;max-width:800px" class="pie-chart"></canvas>
+   </div>
+  </div>
+  <script>
+var ctx = document.getElementById('myChart');
+var barColors = ["#b91d47",
+  "#00aba9",
+  "#2b5797",
+  "#e8c3b9",
+  "#1e7145"];
+var xValues = [
+  "2018 New Fashion",
+  "Women Stretchy",
+  "Women Casual",
+  "2018 Summer Fashion",
+  "Women Fashion Loose"
+];
+var yValues = [100000, 50000, 50000, 50000, 50000];
+var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: { 
+        datasets: [{
+            data: yValues,
+            backgroundColor:barColors
+        }],
+        labels: xValues
+    },
+  options: {
+    legend: {display: true,position:'bottom'},
+    title: {
+      display: true,
+      text: "Top sold clothes"
+    }
+  }
+});  
+
+</script>
