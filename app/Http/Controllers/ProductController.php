@@ -21,13 +21,17 @@ class ProductController extends Controller
              $price = $request->input('search');
                return  view('search',["price" => $price]);
             }
+
             public function select(Request  $request){
                 $this->validate($request, [
-                     'byprice'=>'required'
+                     'byprice'=>'required',
+                     'byrating'=>'required'
                 ]);
                  $c1= $request->input('byprice');
-                   return  view('select',["price" => $c1]);
+                 $c2=$request->input('byrating');
+                   return  view('select',["price" => $c1,"rating"=>$c2]);
                 }
+
         function admin(Request $request){
             $this->validate($request, [
                     'email'=>'required',

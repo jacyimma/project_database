@@ -74,70 +74,68 @@
            } 
 ?>
 <?php   
-     $sql = "SELECT * FROM ShopOfClothes order by RETAIL_PRICE :didbv;";
+     $sql = "SELECT * FROM ShopOfClothes order by RETAIL_PRICE $price, RATING $rating";
      $s = oci_parse($conn, $sql);
-     $didbv = DESC;
-     oci_bind_by_name($s, ':didbv', $didbv);
-     oci_execute($s, OCI_DEFAULT);
-                     while (oci_fetch($s)) {
-                     $id = oci_result($s, "ID"); 
-                     $title =  oci_result($s, "TITLE");
-                     $image =  oci_result($s, "PRODUCT_PICTURE");  
-                     $title_orig = oci_result($s,'TITLE_ORIG');
-                     $price =  oci_result($s,'PRICE');
-                     $jimage = oci_result($s,'PRODUCT_PICTURE');
-                     $product_id = oci_result($s,'PRODUCT_ID');
-                     $currency_buyer = oci_result($s,'CURRENCY_BUYER');
-                     $units_sold = oci_result($s,'UNITS_SOLD');
-                     $uses_ad_boosts = oci_result($s,'USES_AD_BOOSTS');
-                     $rating = oci_result($s,'RATING');
-                     $rating_count = oci_result($s,'RATING_COUNT');
-                     $tags = oci_result($s,'TAGS');
-                     $product_color = oci_result($s,'PRODUCT_COLOR');
-                     $product_size_id = oci_result($s,'PRODUCT_VARIATION_SIZE_ID');
-                     $product_size_in = oci_result($s,'PRODUCT_VARIATION_INVENTORY');
-                     $shipping_option_name = oci_result($s,'SHIPPING_OPTION_NAME');
-                     $shipping_option_price = oci_result($s,'SHIPPING_OPTION_PRICE');
-                     $shipping_option_exp = oci_result($s,'SHIPPING_IS_EXPRESS');
-                     $countries_shipped_id = oci_result($s,'COUNTRIES_SHIPPED_TO');
-                     $inventory_total =oci_result($s,'INVENTORY_TOTAL');
-                     $urgency_text = oci_result($s,'URGENCY_TEXT');
-                     $origin_country = oci_result($s,'ORIGIN_COUNTRY');
-                     $mer_title = oci_result($s,'MERCHANT_TITLE');
-                     $mer_name = oci_result($s,'MERCHANT_NAME');
-                     $mer_rating_count = oci_result($s,'MERCHANT_RATING_COUNT');
-                     $mer_id = oci_result($s,'MERCHANT_ID');
-                     $product_url = oci_result($s,'PRODUCT_URL');
-                     $total_profit = oci_result($s,'TOTAL_PROFIT');
-                     $crawl = oci_result($s,'CRAWL_MONTH'); 
+     $didbv = $price;
+oci_execute($s, OCI_DEFAULT);
+while (oci_fetch($s)) {
+$id = oci_result($s, "ID"); 
+$title =  oci_result($s, "TITLE");
+$image =  oci_result($s, "PRODUCT_PICTURE");  
+$title_orig = oci_result($s,'TITLE_ORIG');
+$price =  oci_result($s,'PRICE');
+$jimage = oci_result($s,'PRODUCT_PICTURE');
+$product_id = oci_result($s,'PRODUCT_ID');
+$currency_buyer = oci_result($s,'CURRENCY_BUYER');
+$units_sold = oci_result($s,'UNITS_SOLD');
+$uses_ad_boosts = oci_result($s,'USES_AD_BOOSTS');
+$rating = oci_result($s,'RATING');
+$rating_count = oci_result($s,'RATING_COUNT');
+$tags = oci_result($s,'TAGS');
+$product_color = oci_result($s,'PRODUCT_COLOR');
+$product_size_id = oci_result($s,'PRODUCT_VARIATION_SIZE_ID');
+$product_size_in = oci_result($s,'PRODUCT_VARIATION_INVENTORY');
+$shipping_option_name = oci_result($s,'SHIPPING_OPTION_NAME');
+$shipping_option_price = oci_result($s,'SHIPPING_OPTION_PRICE');
+$shipping_option_exp = oci_result($s,'SHIPPING_IS_EXPRESS');
+$countries_shipped_id = oci_result($s,'COUNTRIES_SHIPPED_TO');
+$inventory_total =oci_result($s,'INVENTORY_TOTAL');
+$urgency_text = oci_result($s,'URGENCY_TEXT');
+$origin_country = oci_result($s,'ORIGIN_COUNTRY');
+$mer_title = oci_result($s,'MERCHANT_TITLE');
+$mer_name = oci_result($s,'MERCHANT_NAME');
+$mer_rating_count = oci_result($s,'MERCHANT_RATING_COUNT');
+$mer_id = oci_result($s,'MERCHANT_ID');
+$product_url = oci_result($s,'PRODUCT_URL');
+$total_profit = oci_result($s,'TOTAL_PROFIT');
+$crawl = oci_result($s,'CRAWL_MONTH'); 
+?>
 
-              ?>
-    
-            <div class='row'>
-              <div class="col s3">
-                    <img src="<?php echo $image?>" alt="" class="image">
-              </div>
-              <div class="col s6">
-                   <div class="item-content">
-                    <span class="bold">NAME : </span>
-                    <span class="product"><?php echo $title_orig?></span>
-                   </div>
-                   <div class="item-content">
-                    <span class="bold">TITLE: </span>
-                    <span class="product"><?php echo $title?></span>
-                   </div>
-                   <div class="item-content">
-                    <span class="bold">PRICE: </span>
-                    <span class="product"><?php echo $price?></span>
-                   </div>
-                   <div class="item-content">
-                    <span class="bold">PRODUCT_COLOR: </span>
-                    <span class="product"><?php echo $product_color?></span>
-                   </div>
+<div class='row'>
+<div class="col s3">
+<img src="<?php echo $image?>" alt="" class="image">
+</div>
+<div class="col s6">
+<div class="item-content">
+<span class="bold">NAME : </span>
+<span class="product"><?php echo $title_orig?></span>
+</div>
+<div class="item-content">
+<span class="bold">TITLE: </span>
+<span class="product"><?php echo $title?></span>
+</div>
+<div class="item-content">
+<span class="bold">PRICE: </span>
+<span class="product"><?php echo $price?></span>
+</div>
+<div class="item-content">
+<span class="bold">PRODUCT_COLOR: </span>
+<span class="product"><?php echo $product_color?></span>
+</div>
 
-              </div>
-            </div>
-       <?php  
-    } ?>
-     
+</div>
+</div>
+<?php  
+} ?>
+
 </body>
